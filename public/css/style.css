@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'Cooper Black';
+    src: url('fonts/Cooper Black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bg-primary: #0C0F0A;
+    --accent: #FF206E;
+    --text-primary: #FBFF12;
+    --text-secondary: #e9e9e9;
+    --card-bg: #1a1e17;
+    --shadow: rgba(255, 32, 110, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-primary);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff4d8a;
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/icon-colibri.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="img/home-icon.png" sizes="32x32" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/logo.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <title>Colibri Pulse</title>
+  </head>
+  <body>
+    <header>
+      <div class="header-wrapper">
+        <!-- Левая часть: логотип -->
+        <div class="logo">
+          <img src="img/logo-colibri.png" alt="logo-colibri" />
+          <div class="wrapper">
+            <span class="title-wrapper">
+              <span class="title">Colibri</span>
+            </span>
+            <span class="subtitle">pulse</span>
+          </div>
+        </div>
+
+        <!-- Центральная часть: поиск + кнопка Главная -->
+        <div class="search-section">
+          <button class="home-btn">
+            <img src="img/icon-home.png" alt="Главная" width="24" height="24" />
+            <span class="action-label">Главная</span>
+          </button>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Поиск подкастов..."
+          />
+          <button id="searchBtn">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21L16.65 16.65" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Правая часть: профиль -->
+        <div class="header-actions">
+          <button class="user-profile-btn">
+            <img
+              src="img/icon-userprofile.png"
+              alt="Профиль"
+              width="24"
+              height="24"
+            />
+            <span class="action-label">Профиль</span>
+          </button>
+        </div>
+      </div>
+    </header>
+  </body>
+</html>
