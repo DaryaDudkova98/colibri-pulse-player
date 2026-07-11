@@ -1,0 +1,445 @@
+/* ===== БОКОВОЕ МЕНЮ ===== */
+
+/* Базовые стили для body */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0C0F0A;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ===== ОСНОВНОЙ ЛЭЙАУТ ===== */
+.main-layout {
+    display: flex;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 20px;
+    flex: 1;
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: calc(100vh - 160px);
+}
+
+/* ===== САЙДБАР ===== */
+.sidebar {
+    width: 220px;
+    min-width: 180px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 20px 0;
+    height: auto;
+    min-height: 100%;
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav ul li {
+    margin: 2px 8px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    color: #8899aa;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #e0e4ee;
+}
+
+.sidebar-link.active {
+    background: rgba(255, 32, 110, 0.12);
+    color: #ff206e;
+}
+
+.sidebar-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 24px;
+    background: #ff206e;
+    border-radius: 0 3px 3px 0;
+}
+
+.sidebar-icon {
+    font-size: 18px;
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.sidebar-label {
+    flex: 1;
+}
+
+.sidebar-badge {
+    background: #ff206e;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+}
+
+/* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+.main-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    max-width: 55%;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.main-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: rgba(255,32,110,0.3);
+    border-radius: 10px;
+}
+
+/* ===== ВСЕ СЕКЦИИ ВНУТРИ MAIN ===== */
+.main-content .presets-section,
+.main-content .filters-section,
+.main-content .recent-section {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* ===== ПРАВАЯ ПАНЕЛЬ ===== */
+.info-panel {
+    width: 280px;
+    min-width: 220px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 24px;
+    height: auto;
+    min-height: 100%;
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.info-panel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.info-panel::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+}
+
+.info-panel::-webkit-scrollbar-thumb {
+    background: rgba(255,32,110,0.3);
+    border-radius: 10px;
+}
+
+.info-panel-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    min-height: 200px;
+}
+
+.info-placeholder {
+    text-align: center;
+    padding: 30px 10px;
+    color: #6a7a8a;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.info-placeholder .info-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+.info-placeholder h3 {
+    color: #a0b0c0;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.info-placeholder p {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Информация о подкасте */
+.podcast-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.podcast-info .info-cover {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 14px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    flex-shrink: 0;
+}
+
+.podcast-info .info-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f0f2f5;
+}
+
+.podcast-info .info-publisher {
+    color: #b8c5d6;
+    font-size: 13px;
+}
+
+.podcast-info .info-description {
+    color: #a0b0c0;
+    font-size: 13px;
+    line-height: 1.7;
+    max-height: 120px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.podcast-info .info-description::-webkit-scrollbar {
+    width: 3px;
+}
+
+.podcast-info .info-description::-webkit-scrollbar-thumb {
+    background: rgba(255,32,110,0.3);
+    border-radius: 10px;
+}
+
+.podcast-info .info-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+}
+
+.podcast-info .info-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #8899aa;
+    font-size: 12px;
+}
+
+/* ===== КОНТЕЙНЕР РЕЗУЛЬТАТОВ ===== */
+#resultsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 10px 0;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+    flex: 1;
+    align-content: start;
+}
+
+/* ===== ФУТЕР ===== */
+.site-footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 180px;
+        min-width: 140px;
+    }
+    
+    .info-panel {
+        width: 220px;
+        min-width: 180px;
+    }
+    
+    .main-content {
+        max-width: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-layout {
+        flex-direction: column;
+        padding: 0 12px;
+        gap: 16px;
+        min-height: auto;
+        align-items: stretch;
+    }
+    
+    .sidebar {
+        width: 100%;
+        min-width: unset;
+        min-height: auto;
+        height: auto;
+        position: static;
+        padding: 12px 0;
+        overflow-x: auto;
+        border-radius: 16px;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .sidebar-nav {
+        width: 100%;
+        flex: none;
+    }
+    
+    .sidebar-nav ul {
+        display: flex;
+        gap: 4px;
+        padding: 0 12px;
+        flex-wrap: nowrap;
+    }
+    
+    .sidebar-nav ul li {
+        margin: 0;
+        flex-shrink: 0;
+    }
+    
+    .sidebar-link {
+        padding: 8px 14px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+    
+    .sidebar-link .sidebar-label {
+        display: inline;
+    }
+    
+    .sidebar-link.active::before {
+        display: none;
+    }
+    
+    .main-content {
+        max-width: 100%;
+        width: 100%;
+        overflow-y: visible;
+        padding-right: 0;
+        max-height: none;
+    }
+    
+    .info-panel {
+        width: 100%;
+        min-width: unset;
+        min-height: auto;
+        height: auto;
+        position: static;
+        border-radius: 16px;
+        padding: 20px;
+        max-height: none;
+        overflow-y: visible;
+    }
+    
+    .info-placeholder {
+        padding: 20px;
+        min-height: 100px;
+    }
+    
+    #resultsContainer {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar-link {
+        padding: 6px 12px;
+        font-size: 12px;
+        gap: 6px;
+    }
+    
+    .sidebar-icon {
+        font-size: 16px;
+        width: 22px;
+    }
+    
+    .sidebar-link .sidebar-label {
+        font-size: 11px;
+    }
+    
+    .info-panel {
+        padding: 16px;
+    }
+    
+    #resultsContainer {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}

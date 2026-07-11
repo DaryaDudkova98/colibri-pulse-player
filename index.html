@@ -4,16 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="public/img/icon-colibri.png" sizes="16x16" />
-    <link rel="icon" type="public/image/png" href="img/home-icon.png" sizes="32x32" />
+    <link
+      rel="icon"
+      type="public/image/png"
+      href="img/home-icon.png"
+      sizes="32x32"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
     <link rel="stylesheet" href="public/css/style.css" />
     <link rel="stylesheet" href="public/css/logo.css" />
     <link rel="stylesheet" href="public/css/header.css" />
+    <link rel="stylesheet" href="public/css/sidebar.css" />
+    <link rel="stylesheet" href="public/css/presets.css" />
+    <link rel="stylesheet" href="public/css/filters.css" />
+    <link rel="stylesheet" href="public/css/favouriteBtn.css" />
+    <link rel="stylesheet" href="public/css/recent.css" />
+    <link rel="stylesheet" href="public/css/floating-player.css" />
+    <link rel="stylesheet" href="public/css/pagination.css" />
+    <link rel="stylesheet" href="public/css/footer.css" />
     <title>Colibri Pulse</title>
   </head>
   <body>
     <header>
       <div class="header-wrapper">
-        <div class="logo">
+        <div class="header__logo">
           <img src="public/img/logo-colibri.png" alt="logo-colibri" />
           <div class="wrapper">
             <span class="title-wrapper">
@@ -24,10 +41,6 @@
         </div>
 
         <div class="search-section">
-          <button class="home-btn">
-            <img src="public/img/icon-home.png" alt="Главная" width="24" height="24" />
-            <span class="action-label">Главная</span>
-          </button>
           <input
             type="text"
             id="searchInput"
@@ -48,18 +61,375 @@
           </button>
         </div>
 
-        <div class="header-actions">
-          <button class="user-profile-btn">
-            <img
-              src="public/img/icon-userprofile.png"
-              alt="Профиль"
-              width="24"
-              height="24"
-            />
-            <span class="action-label">Профиль</span>
-          </button>
+        <div class="header-actions" id="headerActions">
+          <!-- Кнопка будет добавляться динамически через JS -->
         </div>
       </div>
     </header>
+
+    <!-- ===== ПЛАВАЮЩИЙ АУДИОПЛЕЕР ===== -->
+    <div id="floatingPlayer" class="floating-player" style="display: none">
+      <div class="floating-player-drag" id="playerDragHandle">
+        <span class="drag-icon">⠿</span>
+      </div>
+      <button class="floating-player-toggle" id="playerToggle">
+        <span class="toggle-icon">▶</span>
+      </button>
+      <div class="floating-player-info">
+        <img class="player-cover" id="playerCover" src="" alt="Cover" />
+        <div class="player-meta">
+          <div class="player-title" id="playerTitle">Название эпизода</div>
+          <div class="player-publisher" id="playerPublisher">Подкаст</div>
+        </div>
+      </div>
+      <div class="floating-player-controls">
+        <button class="player-btn" id="playerPrev">⏮</button>
+        <button class="player-btn player-play-btn" id="playerPlayBtn">▶</button>
+        <button class="player-btn" id="playerNext">⏭</button>
+      </div>
+      <div class="floating-player-progress">
+        <div class="player-progress-bar" id="playerProgressBar">
+          <div
+            class="player-progress-fill"
+            id="playerProgressFill"
+            style="width: 0%"
+          ></div>
+        </div>
+        <div class="player-time">
+          <span id="playerCurrentTime">0:00</span>
+          <span id="playerTotalTime">0:00</span>
+        </div>
+      </div>
+      <button class="floating-player-close" id="playerClose">✕</button>
+    </div>
+
+    <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+    <div class="main-layout">
+      <!-- ===== БОКОВОЕ МЕНЮ ===== -->
+      <aside class="sidebar">
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="#" class="sidebar-link active" data-page="home">
+                <span class="sidebar-icon"><i class="fas fa-home"></i></span>
+                <span class="sidebar-label">Главная</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-page="lists">
+                <span class="sidebar-icon"><i class="fas fa-list"></i></span>
+                <span class="sidebar-label">Списки</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-page="favorites">
+                <span class="sidebar-icon"><i class="fas fa-heart"></i></span>
+                <span class="sidebar-label">Избранное</span>
+                <span class="sidebar-badge" id="favoritesBadge">0</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-page="history">
+                <span class="sidebar-icon"><i class="fas fa-clock"></i></span>
+                <span class="sidebar-label">История</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="sidebar-link" data-page="profile">
+                <span class="sidebar-icon"><i class="fas fa-user"></i></span>
+                <span class="sidebar-label">Профиль</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- ===== ОСНОВНОЙ КОНТЕНТ (50%) ===== -->
+      <main class="main-content">
+        <!-- Блок пресетов -->
+        <section class="presets-section">
+          <div class="presets-container">
+            <h3 class="presets-title">Быстрый поиск</h3>
+            <div class="presets-grid">
+              <button class="preset-btn" data-query="tech">Технологии</button>
+              <button class="preset-btn" data-query="business">Бизнес</button>
+              <button class="preset-btn" data-query="health">Здоровье</button>
+              <button class="preset-btn" data-query="education">
+                Образование
+              </button>
+              <button class="preset-btn" data-query="comedy">Юмор</button>
+              <button class="preset-btn" data-query="science">Наука</button>
+              <button class="preset-btn" data-query="history">История</button>
+              <button class="preset-btn" data-query="sports">Спорт</button>
+              <button class="preset-btn" data-query="music">Музыка</button>
+              <button class="preset-btn" data-query="true crime">
+                Криминал
+              </button>
+              <button class="preset-btn" data-query="self improvement">
+                Саморазвитие
+              </button>
+              <button class="preset-btn" data-query="news">Новости</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Блок фильтров -->
+        <section class="filters-section">
+          <div class="filters-container">
+            <div class="filters-row">
+              <div class="filter-group">
+                <label class="filter-label">Язык</label>
+                <select id="filterLanguage" class="filter-select">
+                  <option value="">Все языки</option>
+                  <option value="en">🇬🇧 Английский</option>
+                  <option value="ru">🇷🇺 Русский</option>
+                  <option value="es">🇪🇸 Испанский</option>
+                  <option value="fr">🇫🇷 Французский</option>
+                  <option value="de">🇩🇪 Немецкий</option>
+                  <option value="it">🇮🇹 Итальянский</option>
+                  <option value="pt">🇵🇹 Португальский</option>
+                  <option value="ja">🇯🇵 Японский</option>
+                  <option value="zh">🇨🇳 Китайский</option>
+                  <option value="ar">🇸🇦 Арабский</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label class="filter-label">Тип</label>
+                <select id="filterType" class="filter-select">
+                  <option value="">Все</option>
+                  <option value="episode">Эпизоды</option>
+                  <option value="podcast">Подкасты</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label class="filter-label">Сортировка</label>
+                <select id="filterSort" class="filter-select">
+                  <option value="relevance">По релевантности</option>
+                  <option value="date">По дате (новые)</option>
+                  <option value="date_old">По дате (старые)</option>
+                  <option value="popularity">По популярности</option>
+                </select>
+              </div>
+              <button id="resetFiltersBtn" class="reset-filters-btn">
+                Сбросить
+              </button>
+            </div>
+            <div id="activeFilters" class="active-filters"></div>
+          </div>
+        </section>
+
+        <!-- Блок недавних просмотров -->
+        <section
+          class="recent-section"
+          id="recentSection"
+          style="display: none"
+        >
+          <div class="recent-container">
+            <div class="recent-header">
+              <h3 class="recent-title">Недавние просмотры</h3>
+              <button class="recent-clear-btn" id="clearRecentBtn">
+                Очистить
+              </button>
+            </div>
+            <div class="recent-slider-wrapper">
+              <button
+                class="recent-scroll-btn recent-scroll-left"
+                id="recentScrollLeft"
+              >
+                ‹
+              </button>
+              <div class="recent-slider" id="recentSlider"></div>
+              <button
+                class="recent-scroll-btn recent-scroll-right"
+                id="recentScrollRight"
+              >
+                ›
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Контейнер результатов -->
+        <div id="resultsContainer"></div>
+      </main>
+
+      <!-- ===== ПРАВАЯ ПАНЕЛЬ (30%) - ИНФОРМАЦИЯ О ПОДКАСТЕ ===== -->
+      <aside class="info-panel" id="infoPanel">
+        <div class="info-panel-content">
+          <div class="info-placeholder">
+            <div class="info-icon">🎙️</div>
+            <h3>Выберите подкаст</h3>
+            <p>
+              Нажмите на карточку подкаста, чтобы увидеть детальную информацию
+            </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="img/logo-colibri.png" alt="Colibri Pulse" />
+            <span>Colibri <span class="footer-pulse">Pulse</span></span>
+          </div>
+          <p class="footer-desc">
+            Ваш персональный гид в мире подкастов. Откройте для себя тысячи
+            эпизодов на любой вкус.
+          </p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Навигация</h4>
+            <ul>
+              <li>
+                <a
+                  href="#"
+                  onclick="
+                    window.loadInitialPodcasts();
+                    return false;
+                  "
+                >
+                  <i class="fas fa-home"></i>
+                  Главная
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="
+                    document.getElementById('searchInput').focus();
+                    return false;
+                  "
+                >
+                  <i class="fas fa-search"></i>
+                  Поиск
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="
+                    window.showFavorites();
+                    return false;
+                  "
+                >
+                  <i class="fas fa-heart"></i>
+                  Избранное
+                </a>
+              </li>
+              <li>
+                <a href="/login.html">
+                  <i class="fas fa-sign-in-alt"></i>
+                  Войти
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Категории</h4>
+            <ul>
+              <li>
+                <a
+                  href="#"
+                  onclick="
+                    document.getElementById('searchInput').value = 'tech';
+                    window.handleSearch();
+                    return false;
+                  "
+                  >Технологии</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="
+                    document.getElementById('searchInput').value = 'business';
+                    window.handleSearch();
+                    return false;
+                  "
+                  >Бизнес</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="
+                    document.getElementById('searchInput').value = 'science';
+                    window.handleSearch();
+                    return false;
+                  "
+                  >Наука</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="
+                    document.getElementById('searchInput').value = 'comedy';
+                    window.handleSearch();
+                    return false;
+                  "
+                  >Юмор</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>О проекте</h4>
+            <ul>
+              <li>
+                <a href="#">
+                  <i class="fas fa-info-circle"></i>
+                  О нас
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="fas fa-envelope"></i>
+                  Контакты
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="fas fa-shield-alt"></i>
+                  Политика конфиденциальности
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="fas fa-file-contract"></i>
+                  Условия использования
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-social">
+            <a href="#" class="social-link" title="Telegram">
+              <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a href="#" class="social-link" title="VK">
+              <i class="fab fa-vk"></i>
+            </a>
+            <a href="#" class="social-link" title="YouTube">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="#" class="social-link" title="RSS">
+              <i class="fas fa-rss"></i>
+            </a>
+          </div>
+          <p class="footer-copy">
+            © 2024 <strong>Colibri Pulse</strong>. Все права защищены. Сделано с
+            любовью для любителей подкастов.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="public/js/api-client.js"></script>
+    <script type="module" src="/js/main.js"></script>
   </body>
 </html>

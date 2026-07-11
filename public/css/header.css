@@ -1,175 +1,479 @@
+/* ===== HEADER ===== */
+
 header {
-  padding: 15px 0;
-  border-bottom: 1px solid rgba(255, 32, 110, 0.15);
-  background: rgba(12, 15, 10, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 32, 110, 0.15);
+    background: rgba(12, 15, 10, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .header-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
+/* ===== LOGO ===== */
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.header__logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.header__logo .wrapper {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.header__logo .title-wrapper {
+    display: flex;
+    align-items: baseline;
+}
+
+.header__logo .title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: -0.5px;
+}
+
+.header__logo .subtitle {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 1px;
+}
 
 /* ===== SEARCH SECTION ===== */
 .search-section {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  background: var(--card-bg);
-  border: 2px solid rgba(255, 32, 110, 0.2);
-  border-radius: 30px;
-  transition: all 0.3s ease;
-  max-width: 600px;
-  padding: 2px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    border: 2px solid rgba(255, 32, 110, 0.2);
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    max-width: 600px;
+    padding: 2px;
 }
 
 .search-section:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 25px rgba(255, 32, 110, 0.15);
+    border-color: var(--accent);
+    box-shadow: 0 0 25px rgba(255, 32, 110, 0.15);
 }
 
-/* ===== HOME BUTTON (внутри поиска) ===== */
+/* ===== HOME BUTTON ===== */
 .search-section .home-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: transparent;
-  border: none;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px 14px 8px 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  font-weight: 500;
-  flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 14px 8px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    flex-shrink: 0;
 }
 
 .search-section .home-btn img {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) invert(1) opacity(0.7);
-  transition: all 0.3s ease;
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1) opacity(0.7);
+    transition: all 0.3s ease;
 }
 
 .search-section .home-btn .action-label {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 .search-section .home-btn:hover {
-  color: var(--text-primary);
+    color: var(--text-primary);
 }
 
 .search-section .home-btn:hover img {
-  filter: drop-shadow(0 0 8px rgba(255, 32, 110, 0.5)) brightness(0) invert(1);
-  opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(255, 32, 110, 0.5)) brightness(0) invert(1);
+    opacity: 1;
 }
 
 .search-section .home-btn:hover .action-label {
-  color: var(--text-primary);
+    color: var(--text-primary);
 }
 
 /* ===== SEARCH INPUT ===== */
 #searchInput {
-  flex: 1;
-  padding: 10px 14px;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  min-width: 100px;
+    flex: 1;
+    padding: 10px 14px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    min-width: 100px;
 }
 
 #searchInput::placeholder {
-  color: #666;
-  font-weight: 300;
+    color: #666;
+    font-weight: 300;
 }
 
 /* ===== SEARCH BUTTON ===== */
 #searchBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;
-  height: 38px;
-  background: var(--accent);
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-right: 4px;
-  flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: var(--accent);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 4px;
+    flex-shrink: 0;
 }
 
 #searchBtn svg {
-  color: var(--bg-primary);
-  stroke: var(--bg-primary);
+    color: var(--bg-primary);
+    stroke: var(--bg-primary);
 }
 
 #searchBtn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(255, 32, 110, 0.4);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255, 32, 110, 0.4);
 }
 
 /* ===== RIGHT ACTIONS ===== */
 .header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
 }
 
 .user-profile-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  border: 2px solid rgba(255, 32, 110, 0.2);
-  border-radius: 30px;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  font-weight: 500;
-  flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 2px solid rgba(255, 32, 110, 0.2);
+    border-radius: 30px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    flex-shrink: 0;
+    position: relative;
 }
 
 .user-profile-btn img {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) invert(1) opacity(0.8);
-  transition: all 0.3s ease;
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1) opacity(0.8);
+    transition: all 0.3s ease;
 }
 
 .user-profile-btn .action-label {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 .user-profile-btn:hover {
-  border-color: var(--accent);
-  background: rgba(255, 32, 110, 0.08);
-  box-shadow: 0 0 25px rgba(255, 32, 110, 0.1);
+    border-color: var(--accent);
+    background: rgba(255, 32, 110, 0.08);
+    box-shadow: 0 0 25px rgba(255, 32, 110, 0.1);
 }
 
 .user-profile-btn:hover img {
-  filter: drop-shadow(0 0 8px rgba(255, 32, 110, 0.5)) brightness(0) invert(1);
+    filter: drop-shadow(0 0 8px rgba(255, 32, 110, 0.5)) brightness(0) invert(1);
 }
 
 .user-profile-btn:hover .action-label {
-  color: var(--text-primary);
+    color: var(--text-primary);
+}
+
+/* ===== БЕЙДЖ ИЗБРАННОГО ===== */
+.favorite-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #ff6b6b;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+    pointer-events: none;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 1024px) {
+    .header-wrapper {
+        gap: 12px;
+    }
+    
+    .search-section {
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-wrapper {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .header__logo {
+        gap: 8px;
+    }
+    
+    .header__logo img {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .header__logo .title {
+        font-size: 18px;
+    }
+    
+    .header__logo .subtitle {
+        font-size: 8px;
+    }
+    
+    .search-section {
+        order: 3;
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+    
+    .search-section .home-btn .action-label {
+        display: none;
+    }
+    
+    .search-section .home-btn {
+        padding: 8px 10px;
+    }
+    
+    .user-profile-btn .action-label {
+        display: none;
+    }
+    
+    .user-profile-btn {
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 10px 0;
+    }
+    
+    .header-wrapper {
+        padding: 0 12px;
+        gap: 8px;
+    }
+    
+    .header__logo img {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .header__logo .title {
+        font-size: 16px;
+    }
+    
+    .header__logo .subtitle {
+        font-size: 7px;
+    }
+    
+    #searchInput {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+        min-width: 60px;
+    }
+    
+    #searchBtn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    #searchBtn svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* ===== RIGHT ACTIONS ===== */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* ===== КНОПКА ВХОДА ===== */
+.login-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ff206e, #ff4d8a);
+    border: none;
+    border-radius: 30px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.login-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255, 32, 110, 0.4);
+}
+
+/* ===== ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ ===== */
+.user-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 2px solid rgba(255, 32, 110, 0.2);
+    border-radius: 30px;
+    padding: 6px 16px 6px 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.user-profile-btn .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgba(255, 32, 110, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.user-profile-btn .user-name {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-profile-btn:hover {
+    border-color: var(--accent);
+    background: rgba(255, 32, 110, 0.08);
+    box-shadow: 0 0 25px rgba(255, 32, 110, 0.1);
+}
+
+.user-profile-btn:hover .user-name {
+    color: var(--text-primary);
+}
+
+.user-profile-btn .favorite-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ff6b6b;
+    color: white;
+    font-size: 9px;
+    font-weight: bold;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+    pointer-events: none;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .login-btn .action-label {
+        display: none;
+    }
+    
+    .login-btn {
+        padding: 8px 12px;
+    }
+    
+    .user-profile-btn .user-name {
+        display: none;
+    }
+    
+    .user-profile-btn {
+        padding: 6px 10px;
+    }
+    
+    .user-profile-btn .user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .user-profile-btn {
+        padding: 4px 8px;
+    }
+    
+    .user-profile-btn .user-avatar {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+    }
 }

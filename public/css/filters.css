@@ -1,0 +1,206 @@
+/* ===== ФИЛЬТРЫ ===== */
+
+.filters-section {
+    max-width: 1200px;
+    margin: 10px auto;
+    padding: 0 20px;
+}
+
+.filters-container {
+    background: rgba(255, 32, 110, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 16px 20px 20px 20px;
+    border: 1px solid rgba(255, 32, 110, 0.8);
+}
+
+.filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 140px;
+}
+
+.filter-label {
+    color: #a0b0c8;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    background: rgba(255, 32, 110, 0.08);
+    border: 1px solid rgba(255, 32, 110, 0.01);
+    border-radius: 10px;
+    color: #eeeaeb;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238899bb' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+}
+
+.filter-select:hover {
+    background-color: rgba(255, 32, 110, 0.1);
+    border-color: rgba(255, 32, 110, 0.03);
+}
+
+.filter-select:focus {
+    border-color: rgba(255, 32, 110, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 32, 110, 0.15);
+}
+
+.filter-select option {
+    background: rgba(22, 4, 10);
+    color: #eeeaeb;
+}
+
+.reset-filters-btn {
+    padding: 8px 20px;
+    background: rgba(255, 32, 110, 0.6);
+    border: 1px solid rgba(255, 32, 110, 0.8);
+    border-radius: 10px;
+    color: #eeeaeb;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    height: 38px;
+    align-self: flex-end;
+}
+
+.reset-filters-btn:hover {
+    background: rgba(220, 53, 69, 0.15);
+    border-color: rgba(220, 53, 69, 0.3);
+    color: #ff6b7a;
+}
+
+.reset-filters-btn:active {
+    transform: scale(0.96);
+}
+
+/* Активные фильтры (теги) */
+.active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    min-height: 28px;
+}
+
+.filter-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px 4px 14px;
+    background: rgba(255, 32, 110, 0.15);
+    border: 1px solid rgba(255, 32, 110, 0.2);
+    border-radius: 50px;
+    font-size: 12px;
+    color: rgba(255, 32, 110, 0.2);
+    animation: tagFadeIn 0.3s ease;
+}
+
+.filter-tag .tag-label {
+    font-weight: 400;
+}
+
+.filter-tag .tag-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: none;
+    background: rgba(255, 32, 110, 0.5);
+    border-radius: 50%;
+    color: rgba(255, 32, 110, 0.5);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.filter-tag .tag-remove:hover {
+    background: rgba(220, 53, 69, 0.3);
+    color: #ff6b7a;
+}
+
+@keyframes tagFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Адаптивность фильтров */
+@media (max-width: 768px) {
+    .filters-container {
+        padding: 14px 16px 16px 16px;
+    }
+    
+    .filters-row {
+        gap: 12px;
+    }
+    
+    .filter-group {
+        min-width: 120px;
+        flex: 1 1 calc(50% - 12px);
+    }
+    
+    .reset-filters-btn {
+        flex: 0 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .filters-container {
+        padding: 12px 14px 14px 14px;
+    }
+    
+    .filters-row {
+        gap: 10px;
+    }
+    
+    .filter-group {
+        min-width: 100px;
+        flex: 1 1 100%;
+    }
+    
+    .filter-select {
+        font-size: 12px;
+        padding: 6px 10px;
+        padding-right: 32px;
+    }
+    
+    .reset-filters-btn {
+        font-size: 12px;
+        padding: 6px 16px;
+        height: 34px;
+        flex: 1;
+    }
+}
