@@ -13,6 +13,16 @@ class PaginationManager {
         this.pagesPerGroup = options.pagesPerGroup || 5;
         this.onPageChange = options.onPageChange || null;
         this.isLoading = false;
+        
+        // Добавляем состояние
+        this.state = {
+            offset: 0,
+            query: '',
+            total: 0,
+            limit: this.limit,
+            isLoading: false,
+            page: this.currentPage
+        };
     }
 
     /**
@@ -27,6 +37,7 @@ class PaginationManager {
      */
     setTotal(total) {
         this.total = total;
+        this.state.total = total;
         this.render();
     }
 
@@ -35,6 +46,7 @@ class PaginationManager {
      */
     setCurrentPage(page) {
         this.currentPage = page;
+        this.state.page = page;
         this.render();
     }
 
@@ -43,6 +55,51 @@ class PaginationManager {
      */
     getTotalPages() {
         return Math.ceil(this.total / this.limit) || 1;
+    }
+
+    /**
+     * Получить текущее состояние
+     */
+    getState() {
+        return { ...this.state };
+    }
+
+    /**
+     * Обновить состояние
+     */
+    updateState(newState) {
+        this.state = { ...this.state, ...newState };
+        if (newState.total !== undefined) {
+            this.total = newState.total;
+        }
+        if (newState.page !== undefined) {
+            this.currentPage = newState.page;
+        }
+        if (newState.limit !== undefined) {
+            this.limit = newState.limit;
+        }
+        this.render();
+    }
+
+    /**
+     * Рассчитать offset для текущей страницы
+     */
+    getOffset() {
+        return (this.currentPage - 1) * this.limit;
+    }
+
+    /**
+     * Проверить, есть ли следующая страница
+     */
+    hasNextPage() {
+        return this.currentPage < this.getTotalPages();
+    }
+
+    /**
+     * Проверить, есть ли предыдущая страница
+     */
+    hasPrevPage() {
+        return this.currentPage > 1;
     }
 
     /**
@@ -180,6 +237,7 @@ class PaginationManager {
      */
     showLoading() {
         this.isLoading = true;
+        this.state.isLoading = true;
         const loadingDiv = document.createElement('div');
         loadingDiv.id = 'loadingMore';
         loadingDiv.className = 'pagination-loading';
@@ -198,6 +256,7 @@ class PaginationManager {
      */
     hideLoading() {
         this.isLoading = false;
+        this.state.isLoading = false;
         const loadingDiv = document.getElementById('loadingMore');
         if (loadingDiv) loadingDiv.remove();
     }
@@ -228,6 +287,14 @@ class PaginationManager {
         this.currentPage = 1;
         this.total = 0;
         this.isLoading = false;
+        this.state = {
+            offset: 0,
+            query: '',
+            total: 0,
+            limit: this.limit,
+            isLoading: false,
+            page: 1
+        };
         const oldPagination = document.getElementById('paginationContainer');
         if (oldPagination) oldPagination.remove();
         const loading = document.getElementById('loadingMore');
@@ -240,9 +307,31 @@ class PaginationManager {
      * Обновить настройки пагинации
      */
     updateSettings(options = {}) {
-        if (options.limit !== undefined) this.limit = options.limit;
+        if (options.limit !== undefined) {
+            this.limit = options.limit;
+            this.state.limit = options.limit;
+        }
         if (options.pagesPerGroup !== undefined) this.pagesPerGroup = options.pagesPerGroup;
         if (options.onPageChange !== undefined) this.onPageChange = options.onPageChange;
+        if (options.container !== undefined) this.container = options.container;
+        this.render();
+    }
+
+    /**
+     * Очистить контейнер пагинации
+     */
+    clearContainer() {
+        if (this.container) {
+            this.container.innerHTML = '';
+        }
+    }
+
+    /**
+     * Обновить контейнер результатов
+     */
+    updateResultsContainer(container) {
+        this.container = container;
+        this.render();
     }
 }
 

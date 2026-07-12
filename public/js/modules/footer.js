@@ -4,7 +4,7 @@ export function setupFooter() {
     const footerLinks = document.querySelectorAll('.footer-column ul li a');
     
     if (footerLinks.length === 0) {
-        console.warn('⚠️ Ссылки футера не найдены');
+        console.warn('Ссылки футера не найдены');
         return;
     }
     
@@ -17,9 +17,9 @@ export function setupFooter() {
             
             // Используем глобальную функцию showToast
             if (window.showToast) {
-                window.showToast('🔗 Функция в разработке');
+                window.showToast('Функция в разработке');
             } else {
-                console.log('🔗 Функция в разработке');
+                console.log('Функция в разработке');
             }
         });
     });

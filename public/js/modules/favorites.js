@@ -1,4 +1,5 @@
 // public/js/modules/favorites.js
+
 import { showToast } from './utils.js';
 import { showEpisodeDetails } from './player.js';
 
@@ -135,6 +136,7 @@ export function showFavorites(resultsContainer) {
             position: relative;
             overflow: hidden;
         `;
+        
         const glow = document.createElement('div');
         glow.style.cssText = `
             position: absolute;
@@ -148,6 +150,7 @@ export function showFavorites(resultsContainer) {
             z-index: 0;
         `;
         card.appendChild(glow);
+        
         card.innerHTML = `
             <div style="position: relative; z-index: 1; width: 100%;">
                 <div style="display: flex; gap: 16px; align-items: flex-start;">
@@ -170,6 +173,15 @@ export function showFavorites(resultsContainer) {
                         <p style="margin: 0; color: #6a7a8a; font-size: 11px;">
                             Добавлено: ${new Date(item.addedAt).toLocaleDateString('ru-RU')}
                         </p>
+                        <!-- ✅ НОВАЯ КНОПКА "СЛУШАТЬ" -->
+                        <button onclick="event.stopPropagation(); window.playInFloatingPlayer('${item.id}')" 
+                                style="margin-top: 8px; padding: 6px 16px; background: rgba(102,126,234,0.2); 
+                                       border: 1px solid rgba(102,126,234,0.3); border-radius: 6px; 
+                                       color: #a0b8ee; cursor: pointer; font-size: 12px; transition: all 0.3s;"
+                                onmouseenter="this.style.background='rgba(102,126,234,0.35)'"
+                                onmouseleave="this.style.background='rgba(102,126,234,0.2)'">
+                            🎵 Слушать
+                        </button>
                     </div>
                     <button onclick="event.stopPropagation(); window.removeFromFavorites?.('${item.id}')" 
                             style="background: rgba(220, 53, 69, 0.15); border: none; border-radius: 50%; 
@@ -180,16 +192,10 @@ export function showFavorites(resultsContainer) {
                         ❌
                     </button>
                 </div>
-                ${item.audio ? `
-                    <div style="margin-top: 12px;" onclick="event.stopPropagation();">
-                        <audio controls style="width: 100%; height: 36px; border-radius: 10px;">
-                            <source src="${item.audio}" type="audio/mpeg">
-                            Ваш браузер не поддерживает аудио
-                        </audio>
-                    </div>
-                ` : ''}
+                <!-- Убираем аудиоплеер, оставляем только кнопку "Слушать" -->
             </div>
         `;
+        
         card.addEventListener('click', () => {
             if (item.id) showEpisodeDetails(item.id);
         });

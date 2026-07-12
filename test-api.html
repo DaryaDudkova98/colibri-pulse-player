@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест iTunes API</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: Arial; padding: 20px; background: #1a1a2e; color: #fff; }
+        .card { background: rgba(255,255,255,0.05); padding: 15px; margin: 10px 0; border-radius: 10px; }
+        img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; }
+        button { padding: 10px 20px; margin: 5px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        button:hover { opacity: 0.8; transform: translateY(-2px); }
+        input { padding: 10px; width: 300px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; }
+        .results { max-height: 600px; overflow-y: auto; padding: 10px; }
+        .debug { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; font-size: 12px; color: #6a7a8a; margin-top: 10px; max-height: 150px; overflow-y: auto; font-family: monospace; }
+        .error { color: #ff6b7a; background: rgba(220,53,69,0.1); padding: 10px; border-radius: 8px; }
+        .podcast-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .podcast-card:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-2px);
+        }
+        .podcast-card .cover {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            float: left;
+            margin-right: 15px;
+        }
+        .podcast-card h3 { margin: 0 0 4px 0; }
+        .podcast-card .publisher { color: #8899aa; font-size: 13px; margin: 0; }
+        .podcast-card .meta { color: #6a7a8a; font-size: 12px; margin-top: 4px; }
+        .clearfix::after { content: ""; clear: both; display: table; }
+        .status { 
+            padding: 8px 12px; 
+            border-radius: 6px; 
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .status.success { background: rgba(46,213,115,0.2); color: #2ed573; }
+        .status.error { background: rgba(220,53,69,0.2); color: #ff6b7a; }
+        .status.info { background: rgba(102,126,234,0.2); color: #667eea; }
+        
+        .listen-btn {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(102,126,234,0.2);
+            border: 1px solid rgba(102,126,234,0.3);
+            border-radius: 6px;
+            color: #a0b8ee;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 8px;
+            transition: all 0.3s;
+        }
+        .listen-btn:hover {
+            background: rgba(102,126,234,0.35);
+        }
+        
+        .player-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(20,20,40,0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            z-index: 9999;
+            display: none;
+        }
+        .player-container.active {
+            display: block;
+        }
+        .player-container audio {
+            width: 100%;
+            max-width: 600px;
+            display: block;
+            margin: 0 auto;
+        }
+        .player-container .player-info {
+            text-align: center;
+            color: #8899aa;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .player-container .player-info strong {
+            color: #f0f2f5;
+        }
+        .player-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #6a7a8a;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .player-close:hover {
+            color: #ff6b7a;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎵 Тест iTunes API</h1>
+    
+    <div id="status" class="status info">⏳ Загрузка API...</div>
+    
+    <div>
+        <input type="text" id="searchInput" placeholder="Поиск подкастов..." value="javascript">
+        <button onclick="searchPodcasts()">🔍 Найти</button>
+        <button onclick="getBest()">⭐ Лучшие</button>
+        <button onclick="getGenres()">📂 Жанры</button>
+        <button onclick="clearResults()">🗑️ Очистить</button>
+        <button onclick="debugData()">🐛 Показать данные</button>
+    </div>
+
+    <div id="results" class="results">
+        <p>⏳ Нажмите "Найти" для поиска подкастов...</p>
+    </div>
+
+    <div id="debug" class="debug">
+        <strong>🐛 Отладка:</strong> Ожидание данных...
+    </div>
+
+    <!-- Плеер -->
+    <div id="playerContainer" class="player-container">
+        <button class="player-close" onclick="closePlayer()">✕</button>
+        <div class="player-info" id="playerInfo">
+            <strong id="playerTitle">Название</strong> — <span id="playerPublisher">Автор</span>
+        </div>
+        <audio id="audioPlayer" controls></audio>
+    </div>
+
+    <script type="module">
+        import apiClient from './js/api-client.js';
+        
+        window.apiClient = apiClient;
+        
+        const statusDiv = document.getElementById('status');
+        statusDiv.className = 'status success';
+        statusDiv.textContent = '✅ API загружен!';
+        
+        console.log('✅ apiClient импортирован');
+        
+        // Глобальные функции
+        window.searchPodcasts = async function() {
+            const query = document.getElementById('searchInput').value.trim() || 'podcast';
+            const resultsDiv = document.getElementById('results');
+            const debugDiv = document.getElementById('debug');
+            
+            resultsDiv.innerHTML = '<p>⏳ Загрузка...</p>';
+            
+            try {
+                const data = await apiClient.searchPodcasts(query);
+                
+                debugDiv.innerHTML = `
+                    <strong>🐛 Отладка:</strong>
+                    <div>✅ Найдено: ${data.total || data.results?.length || 0} подкастов</div>
+                    <div>📦 Тип: ${Array.isArray(data.results) ? 'Массив' : typeof data.results}</div>
+                `;
+                
+                displayResults(data);
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="error">❌ Ошибка: ${error.message}</div>`;
+            }
+        };
+
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (!data || !data.results || data.results.length === 0) {
+                resultsDiv.innerHTML = '<p>😕 Ничего не найдено</p>';
+                return;
+            }
+            
+            resultsDiv.innerHTML = `
+                <div style="margin-bottom: 10px; color: #6a7a8a;">
+                    📊 Найдено: <strong style="color: #fff;">${data.total}</strong> подкастов
+                </div>
+                ${data.results.map((item) => {
+                    const title = item.title || 'Без названия';
+                    const publisher = item.publisher || 'Автор неизвестен';
+                    const imageUrl = item.image || item.artworkUrl100 || '';
+                    const episodes = item.total_episodes || item.trackCount || 0;
+                    const id = item.id || item.collectionId || 'unknown';
+                    const feedUrl = item.feedUrl || '';
+                    
+                    return `
+                        <div class="podcast-card clearfix">
+                            ${imageUrl ? `<img class="cover" src="${imageUrl}" alt="${title}">` : '<div class="cover" style="background:linear-gradient(135deg,#667eea,#764ba2);display:inline-block;float:left;margin-right:15px;width:60px;height:60px;border-radius:8px;text-align:center;line-height:60px;font-size:24px;">🎙️</div>'}
+                            <div>
+                                <h3>${title}</h3>
+                                <p class="publisher">🎙️ ${publisher}</p>
+                                <div class="meta">
+                                    ${episodes ? `📚 ${episodes} эпизодов` : ''}
+                                    ${id ? ` 🆔 ${String(id).slice(0, 8)}` : ''}
+                                    ${feedUrl ? ` 📡 RSS доступен` : ''}
+                                </div>
+                                <button class="listen-btn" onclick="playPodcast('${id}', '${title.replace(/'/g, "\\'")}', '${publisher.replace(/'/g, "\\'")}', '${feedUrl}')">
+                                    🎵 Слушать (RSS)
+                                </button>
+                                <button class="listen-btn" onclick="searchEpisodes('${title.replace(/'/g, "\\'")}')" style="margin-left: 5px;">
+                                    📖 Найти эпизоды
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            `;
+        }
+
+        // Поиск эпизодов подкаста
+        window.searchEpisodes = async function(podcastTitle) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>⏳ Поиск эпизодов...</p>';
+            
+            try {
+                // Ищем эпизоды по названию подкаста
+                const data = await apiClient.searchEpisodes(podcastTitle);
+                
+                if (data && data.results && data.results.length > 0) {
+                    resultsDiv.innerHTML = `
+                        <div style="margin-bottom: 10px; color: #6a7a8a;">
+                            📊 Найдено эпизодов: <strong style="color: #fff;">${data.total}</strong>
+                            <button onclick="searchPodcasts()" style="margin-left: 10px; padding: 5px 15px; font-size: 12px;">← Назад к подкастам</button>
+                        </div>
+                        ${data.results.map((ep) => `
+                            <div class="podcast-card clearfix">
+                                ${ep.image ? `<img class="cover" src="${ep.image}" alt="${ep.title}">` : '<div class="cover" style="background:linear-gradient(135deg,#ff6b6b,#ee5a24);display:inline-block;float:left;margin-right:15px;width:60px;height:60px;border-radius:8px;text-align:center;line-height:60px;font-size:24px;">🎧</div>'}
+                                <div>
+                                    <h3>${ep.title}</h3>
+                                    <p class="publisher">🎙️ ${ep.publisher || 'Автор неизвестен'}</p>
+                                    <p style="color: #6a7a8a; font-size: 12px; margin: 4px 0;">
+                                        ${ep.podcast_title_original ? `📌 ${ep.podcast_title_original}` : ''}
+                                    </p>
+                                    ${ep.audio ? `
+                                        <button class="listen-btn" onclick="playAudio('${ep.audio}', '${ep.title.replace(/'/g, "\\'")}', '${ep.publisher?.replace(/'/g, "\\'") || ''}')">
+                                            ▶️ Слушать эпизод
+                                        </button>
+                                    ` : `
+                                        <span style="color: #6a7a8a; font-size: 12px;">🔇 Аудио недоступно (iTunes не дает прямые ссылки)</span>
+                                    `}
+                                </div>
+                            </div>
+                        `).join('')}
+                    `;
+                } else {
+                    resultsDiv.innerHTML = '<p>😕 Эпизоды не найдены</p>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="error">❌ Ошибка: ${error.message}</div>`;
+            }
+        };
+
+        // Воспроизведение через RSS (пока просто имитация)
+        window.playPodcast = function(id, title, publisher, feedUrl) {
+            const playerContainer = document.getElementById('playerContainer');
+            const playerInfo = document.getElementById('playerInfo');
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            document.getElementById('playerTitle').textContent = title;
+            document.getElementById('playerPublisher').textContent = publisher;
+            
+            // iTunes не дает прямых аудио-ссылок, используем RSS
+            if (feedUrl) {
+                playerInfo.innerHTML = `
+                    <strong>${title}</strong> — ${publisher}
+                    <br><span style="font-size: 11px; color: #6a7a8a;">📡 RSS: ${feedUrl}</span>
+                    <br><span style="font-size: 11px; color: #ff6b6b;">⚠️ iTunes API не предоставляет прямые аудио-ссылки</span>
+                    <br><span style="font-size: 11px; color: #667eea;">💡 Используйте Listen Notes API для аудио</span>
+                `;
+                audioPlayer.src = '';
+                audioPlayer.style.display = 'none';
+                playerContainer.classList.add('active');
+            } else {
+                showToast('❌ RSS-лента не найдена для этого подкаста');
+            }
+        };
+
+        // Воспроизведение аудио (если есть ссылка)
+        window.playAudio = function(audioUrl, title, publisher) {
+            if (!audioUrl) {
+                showToast('❌ Аудио-ссылка отсутствует');
+                return;
+            }
+            
+            const playerContainer = document.getElementById('playerContainer');
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            document.getElementById('playerTitle').textContent = title || 'Эпизод';
+            document.getElementById('playerPublisher').textContent = publisher || 'Автор';
+            
+            audioPlayer.src = audioUrl;
+            audioPlayer.style.display = 'block';
+            audioPlayer.load();
+            audioPlayer.play().catch(err => {
+                console.error('Ошибка воспроизведения:', err);
+                showToast('❌ Не удалось воспроизвести аудио');
+            });
+            
+            playerContainer.classList.add('active');
+        };
+
+        window.closePlayer = function() {
+            const playerContainer = document.getElementById('playerContainer');
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.pause();
+            audioPlayer.src = '';
+            playerContainer.classList.remove('active');
+        };
+
+        window.getBest = async function() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>⏳ Загрузка...</p>';
+            
+            try {
+                const data = await apiClient.getBestPodcasts({ limit: 20 });
+                if (data && data.podcasts) {
+                    const formattedData = {
+                        results: data.podcasts.map(p => ({
+                            id: p.id,
+                            title: p.title,
+                            publisher: p.publisher,
+                            image: p.image,
+                            total_episodes: p.total_episodes || 0,
+                            feedUrl: p.feedUrl || ''
+                        })),
+                        total: data.podcasts.length
+                    };
+                    displayResults(formattedData);
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="error">❌ Ошибка: ${error.message}</div>`;
+            }
+        };
+
+        window.getGenres = async function() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>⏳ Загрузка...</p>';
+            
+            try {
+                const data = await apiClient.getGenres();
+                if (data && data.genres) {
+                    resultsDiv.innerHTML = `
+                        <h3>📂 Жанры (${data.genres.length})</h3>
+                        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+                            ${data.genres.map(g => `
+                                <span style="background:rgba(102,126,234,0.2);padding:5px 12px;border-radius:20px;font-size:13px;cursor:pointer;"
+                                      onclick="document.getElementById('searchInput').value='${g.name}';searchPodcasts();">
+                                    ${g.name}
+                                </span>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="error">❌ Ошибка: ${error.message}</div>`;
+            }
+        };
+
+        window.clearResults = function() {
+            document.getElementById('results').innerHTML = '<p>🗑️ Очищено</p>';
+            document.getElementById('debug').innerHTML = '<strong>🐛 Отладка:</strong> Очищено';
+        };
+
+        window.debugData = function() {
+            const debugDiv = document.getElementById('debug');
+            const data = window.lastData;
+            if (data) {
+                debugDiv.innerHTML = `
+                    <strong>🐛 Отладка:</strong>
+                    <div style="white-space:pre-wrap;font-size:11px;margin-top:5px;color:#6a7a8a;">
+                        📊 Данные получены: ${data.total || data.results?.length || 0} записей
+                        📦 Тип: ${typeof data}
+                        🔑 Ключи: ${Object.keys(data).join(', ')}
+                    </div>
+                `;
+            } else {
+                debugDiv.innerHTML = '<strong>🐛 Отладка:</strong> Нет данных. Выполните поиск.';
+            }
+        };
+
+        // Toast-уведомления
+        function showToast(message) {
+            const existing = document.querySelector('.toast-msg');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.9);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                z-index: 99999;
+                font-size: 14px;
+                max-width: 90%;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        window.showToast = showToast;
+
+        // Сохраняем последние данные
+        const originalDisplay = displayResults;
+        displayResults = function(data) {
+            window.lastData = data;
+            originalDisplay(data);
+        };
+
+        // Автозагрузка
+        setTimeout(() => {
+            window.searchPodcasts();
+        }, 500);
+    </script>
+</body>
+</html>

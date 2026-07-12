@@ -67,42 +67,6 @@
       </div>
     </header>
 
-    <!-- ===== ПЛАВАЮЩИЙ АУДИОПЛЕЕР ===== -->
-    <div id="floatingPlayer" class="floating-player" style="display: none">
-      <div class="floating-player-drag" id="playerDragHandle">
-        <span class="drag-icon">⠿</span>
-      </div>
-      <button class="floating-player-toggle" id="playerToggle">
-        <span class="toggle-icon">▶</span>
-      </button>
-      <div class="floating-player-info">
-        <img class="player-cover" id="playerCover" src="" alt="Cover" />
-        <div class="player-meta">
-          <div class="player-title" id="playerTitle">Название эпизода</div>
-          <div class="player-publisher" id="playerPublisher">Подкаст</div>
-        </div>
-      </div>
-      <div class="floating-player-controls">
-        <button class="player-btn" id="playerPrev">⏮</button>
-        <button class="player-btn player-play-btn" id="playerPlayBtn">▶</button>
-        <button class="player-btn" id="playerNext">⏭</button>
-      </div>
-      <div class="floating-player-progress">
-        <div class="player-progress-bar" id="playerProgressBar">
-          <div
-            class="player-progress-fill"
-            id="playerProgressFill"
-            style="width: 0%"
-          ></div>
-        </div>
-        <div class="player-time">
-          <span id="playerCurrentTime">0:00</span>
-          <span id="playerTotalTime">0:00</span>
-        </div>
-      </div>
-      <button class="floating-player-close" id="playerClose">✕</button>
-    </div>
-
     <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
     <div class="main-layout">
       <!-- ===== БОКОВОЕ МЕНЮ ===== -->
@@ -267,6 +231,43 @@
       </aside>
     </div>
 
+    <!-- ===== ПЛАВАЮЩИЙ АУДИОПЛЕЕР ===== -->
+<div id="floatingPlayer" class="floating-player" style="display: none">
+    <div class="floating-player-drag" id="playerDragHandle">
+        <span class="drag-icon">⠿</span>
+    </div>
+    
+    <button class="floating-player-toggle" id="playerToggle">
+        <span class="toggle-icon">⏸</span>
+    </button>
+    
+    <div class="floating-player-info">
+        <img class="player-cover" id="playerCover" src="" alt="Cover" />
+        <div class="player-meta">
+            <div class="player-title" id="playerTitle">Название эпизода</div>
+            <div class="player-publisher" id="playerPublisher">Подкаст</div>
+        </div>
+    </div>
+    
+    <div class="floating-player-controls">
+        <button class="player-btn" id="playerPrev">⏮</button>
+        <button class="player-btn player-play-btn" id="playerPlayBtn">▶</button>
+        <button class="player-btn" id="playerNext">⏭</button>
+    </div>
+    
+    <div class="floating-player-progress">
+        <div class="player-progress-bar" id="playerProgressBar">
+            <div class="player-progress-fill" id="playerProgressFill" style="width: 0%"></div>
+        </div>
+        <div class="player-time">
+            <span id="playerCurrentTime">0:00</span>
+            <span id="playerTotalTime">0:00</span>
+        </div>
+    </div>
+    
+    <button class="floating-player-close" id="playerClose">✕</button>
+</div>
+
     <footer class="site-footer">
       <div class="footer-container">
         <div class="footer-brand">
@@ -429,7 +430,7 @@
       </div>
     </footer>
 
-    <script src="public/js/api-client.js"></script>
-    <script type="module" src="/js/main.js"></script>
+    <script src="/js/api-client.js"></script>
+<script type="module" src="/js/main.js"></script>
   </body>
 </html>
