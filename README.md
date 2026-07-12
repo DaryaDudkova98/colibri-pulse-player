@@ -8,6 +8,9 @@ Colibri Pulse is a web application for discovering, listening to, and managing p
 
 ## Core Features
 
+## Демо
+https://daryadudkova98.github.io/colibri-pulse-player/
+
 ### 🔍 Search & Filtering
 - **Keyword search** — quick search for podcasts and episodes
 - **Presets** — quick search queries for popular topics (Technology, Business, Science, Comedy, etc.)
