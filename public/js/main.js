@@ -1,9 +1,9 @@
 // public/js/main.js
 
 console.log('🔥🔥🔥 MAIN.JS НАЧАЛО ВЫПОЛНЕНИЯ 🔥🔥🔥');
-import PaginationManager from './modules/pagination.js';
-import { setupPresets } from './modules/presets.js';
-import { setupFilters, getFilterParams } from './modules/filters.js';
+import PaginationManager from '/js/modules/pagination.js';
+import { setupPresets } from '/js/modules/presets.js';
+import { setupFilters, getFilterParams } from '/js/modules/filters.js';
 import {
     getFavorites,
     saveFavorites,
@@ -14,15 +14,15 @@ import {
     clearAllFavorites,
     updateFavoriteCount,
     updateFavoritesBadge
-} from './modules/favorites.js';
-import { setupFooter } from './modules/footer.js';
-import { createSkeletonCards, createEmptyState, createErrorState } from './modules/skeleton.js';
-import { loadInitialPodcasts as loadPodcasts } from './modules/load-podcasts.js';
-import { createPodcastCard } from './modules/cards.js';
-import { showProfileMenu, closeProfileModal, closeProfileModalOnEscape } from './modules/profile.js';
-import { updateHeader, logoutUser } from './modules/header.js';
-import { showPodcastInfo } from './modules/info-panel.js';
-import { setupSidebar } from './modules/sidebar.js';
+} from '/js/modules/favorites.js';
+import { setupFooter } from '/js/modules/footer.js';
+import { createSkeletonCards, createEmptyState, createErrorState } from '/js/modules/skeleton.js';
+import { loadInitialPodcasts as loadPodcasts } from '/js/modules/load-podcasts.js';
+import { createPodcastCard } from '/js/modules/cards.js';
+import { showProfileMenu, closeProfileModal, closeProfileModalOnEscape } from '/js/modules/profile.js';
+import { updateHeader, logoutUser } from '/js/modules/header.js';
+import { showPodcastInfo } from '/js/modules/info-panel.js';
+import { setupSidebar } from '/js/modules/sidebar.js';
 import {
     getRecentViews,
     saveRecentViews,
@@ -34,16 +34,16 @@ import {
     updateScrollButtons,
     scrollRecent,
     setupRecentSlider
-} from './modules/recent-views.js';
-import { showEpisodeDetails } from './modules/episode-details.js';
-import { handleSearch } from './modules/search.js';
-import { getPodcastEpisodes, displayPodcasts } from './modules/podcast-episodes.js';
+} from '/js/modules/recent-views.js';
+import { showEpisodeDetails } from '/js/modules/episode-details.js';
+import { handleSearch } from '/js/modules/search.js';
+import { getPodcastEpisodes, displayPodcasts } from '/js/modules/podcast-episodes.js';
 import {
     handleMainPlay,
     handleMainPause,
     handleMainTimeUpdate,
     handleMainLoaded
-} from './modules/player-handlers.js';
+} from '/js/modules/player-handlers.js';
 import {
     startDrag,
     onDrag,
@@ -53,7 +53,7 @@ import {
     endDragTouch,
     movePlayer,
     savePlayerPosition
-} from './modules/player-drag.js';
+} from '/js/modules/player-drag.js';
 import {
     initFloatingPlayer,
     syncToMainPlayer,
@@ -74,8 +74,8 @@ import {
     dragState,
     playerAudio,
     playerVisible
-} from './modules/floating-player.js';
-import { setupPagination } from './modules/pagination-ui.js';
+} from '/js/modules/floating-player.js';
+import { setupPagination } from '/js/modules/pagination-ui.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Приложение запущено');
